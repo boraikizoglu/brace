@@ -1,4 +1,11 @@
-ace.define("ace/snippets",["require","exports","module","ace/lib/oop","ace/lib/event_emitter","ace/lib/lang","ace/range","ace/anchor","ace/keyboard/hash_handler","ace/tokenizer","ace/lib/dom","ace/editor"], function(acequire, exports, module) {
+ace.define("ace/snippets",
+["require","exports","module",
+"ace/lib/oop","ace/lib/event_emitter",
+"ace/lib/lang","ace/range","ace/anchor",
+"ace/keyboard/hash_handler","ace/tokenizer",
+"ace/lib/dom","ace/editor"], 
+function(acequire, exports, module) {
+
 "use strict";
 var oop = acequire("./lib/oop");
 var EventEmitter = acequire("./lib/event_emitter").EventEmitter;
@@ -1699,6 +1706,10 @@ var FilteredList = function(array, filterText) {
         var upper = needle.toUpperCase();
         var lower = needle.toLowerCase();
         loop: for (var i = 0, item; item = items[i]; i++) {
+            if (item.meta === 'keyword' || item.meta === 'builtinFunctions'){
+                items[i].name = items[i].name.toUpperCase();
+                items[i].value = items[i].value.toUpperCase();
+            }
             var caption = item.value || item.caption || item.snippet;
             if (!caption) continue;
             var lastIndex = -1;
