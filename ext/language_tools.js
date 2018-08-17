@@ -1701,14 +1701,37 @@ var FilteredList = function(array, filterText) {
 
         this.filtered = matches;
     };
+
+    this.keywordObject = {
+        'GROUP': true,
+        'SELECT': true,
+        'FROM': true,
+        'WHERE': true,
+        'WITH': true,
+        'AS': true,
+        'AND': true,
+        '&&': true,
+        'OR': true,
+        'IN': true,
+        'BETWEEN': true,
+        'KEYS': true,
+        'NOT': true,
+        'TRUE': true,
+        'FALSE': true,
+        'BARCHART': true,
+        'HISTOGRAM': true,
+    }
+
     this.filterCompletions = function(items, needle) {
         var results = [];
         var upper = needle.toUpperCase();
         var lower = needle.toLowerCase();
         loop: for (var i = 0, item; item = items[i]; i++) {
             if (item.meta === 'keyword' || item.meta === 'builtinFunctions'){
-                items[i].name = items[i].name.toUpperCase();
-                items[i].value = items[i].value.toUpperCase();
+                if(this.keywordObject[items[i].name.toUpperCase()] && this.keywordObject[items[i].value.toUpperCase()]){
+                    items[i].name = items[i].name.toUpperCase();
+                    items[i].value = items[i].value.toUpperCase();
+                }
             }
             var caption = item.value || item.caption || item.snippet;
             if (!caption) continue;
